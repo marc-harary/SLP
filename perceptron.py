@@ -7,16 +7,18 @@ class Perceptron:
 
 
     def sigmoid(self, z):
-        "Test"
+        """Implements sigmoid function"""
         return 1/(1+np.exp(-z))
 
 
     def acc(self, X, Y):
+        """Calculates accuracy given labels"""
         A = self.predict(X) > .5
         return np.mean(A == Y)
 
 
     def XC(self, X, Y, lambd):
+        """Calculate cross-entropy loss with regularization"""
         _, m = X.shape
         A = self.predict(X)
         loss = -np.mean(Y*np.log(A) + (1-Y)*np.log(1-A))
@@ -25,11 +27,13 @@ class Perceptron:
 
 
     def predict(self, X):
+        """Implements prediction using existing weights and biases"""
         preds = self.sigmoid(self.W.T @ X + self.b)
         return np.squeeze(preds)
     
 
     def grad(self, X, Y):
+        """Calculates gradients"""
         nx, m = X.shape
         A = self.predict(X)
         dZ = A - Y
