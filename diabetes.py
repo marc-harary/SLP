@@ -4,7 +4,7 @@ import pandas as pd
 
 def main():
     # load data into shuffle matrix
-    df = pd.read_csv("data/diabetes.csv")
+    df = pd.read_csv("diabetes.csv")
     df = np.array(df)
     np.random.shuffle(df)
 
@@ -24,7 +24,8 @@ def main():
 
     # fit perceptron
     perc = Perceptron()
-    perc.fit(X=train_design, Y=train_labels, alpha=1e-4, lambd=0.1, epochs=100_000)
+    perc.fit(X=train_design, Y=train_labels, alpha=1e-4,
+        lambd=0, epochs=100_000)
     
     # get model accuracies
     test_acc = perc.acc(X=test_design, Y=test_labels)
