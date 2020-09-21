@@ -19,7 +19,8 @@ class Perceptron:
 
     def XC(self, X, Y, lambd):
         """Calculate cross-entropy loss with regularization"""
-        _, m = X.shape
+        nx, m = X.shape
+        assert(nx == self.nx)
         A = self.predict(X)
         loss = -np.mean(Y*np.log(A) + (1-Y)*np.log(1-A))
         regular = lambd/(2*m) * np.square(self.W).sum()
@@ -35,11 +36,13 @@ class Perceptron:
     def grad(self, X, Y):
         """Calculates gradients"""
         nx, m = X.shape
+        assert(nx == self.nx)
         A = self.predict(X)
         dZ = A - Y
-        dW = (X @ dZ.T) / m
         db = np.mean(dZ)
-        return dW.reshape((nx,1)), db
+        dW = (X @ dZ.T) / m
+        dW = dW.reshape((self.nx,1))
+        return dW, db
     
 
     def fit(self, X, Y, alpha, lambd, epochs):
@@ -55,6 +58,6 @@ class Perceptron:
             dW, db = self.grad(X, Y)
             self.W -= alpha * (dW + lambd/(2*m)*self.W)
             self.b -= alpha * db
-            if i % 1000 == 0:
+            if i % 10_000 == 0:
                 print("Cost for epoch %d is %.5f" %
                     (i, self.XC(X,Y,lambd)))
