@@ -43,6 +43,7 @@ class Perceptron:
     
 
     def fit(self, X, Y, alpha, lambd, epochs):
+        """Fits weights and biases to dataset"""
         nx, m = X.shape
 
         self.nx = nx
